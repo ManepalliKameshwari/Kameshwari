@@ -1,0 +1,24 @@
+import nltk
+from nltk.tokenize import word_tokenize
+from collections import Counter
+
+nltk.download('punkt')
+
+with open('Kameshwari.txt', 'r'):
+    text = file.read()
+
+
+tokens = word_tokenize(text)
+
+
+token_counts = Counter(tokens)
+
+
+sorted_token_counts = sorted(token_counts.items(), key=lambda item: item[1], reverse=True)
+
+
+for token, count in sorted_token_counts:
+    print(f"Token: {token}, Count: {count}")
+
+
+sorted_token_counts_dict = dict(sorted_token_counts)
