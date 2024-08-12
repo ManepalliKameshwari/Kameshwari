@@ -1,24 +1,38 @@
 import nltk
 from nltk.tokenize import word_tokenize
-from collections import Counter
-
-nltk.download('punkt')
-
-with open('Kameshwari.txt', 'r'):
-    text = file.read()
+from collections import Counter, defaultdict
 
 
-tokens = word_tokenize(text)
+with open('Kameshwari.txt', 'r') as file:
+    lines = file.readlines()
+
+tokens = []
+token_positions = defaultdict(list)  
+token_line_numbers = defaultdict(list)  
+
+for line_number, line in enumerate(lines):
+    line_tokens = word_tokenize(line)
+    for position, token in enumerate(line_tokens):
+        tokens.append(token)
+        token_positions[token].append((line_number, position))
+        token_line_numbers[token].append(line_number)
 
 
 token_counts = Counter(tokens)
 
 
-sorted_token_counts = sorted(token_counts.items(), key=lambda item: item[1], reverse=True)
+token_counts_dict = dict(token_counts)
 
 
-for token, count in sorted_token_counts:
+sorted_token_counts_dict = dict(sorted(token_counts_dict.items()))
+
+
+for token in sorted_token_counts_dict:
+    count = sorted_token_counts_dict[token]
+    positions = token_positions[token]
+    line_numbers = token_line_numbers[token]
     print(f"Token: {token}, Count: {count}")
+    print(f"Positions (line, position): {positions}")
+    print(f"Line Numbers: {sorted(set(line_numbers))}")
+    print()
 
-
-sorted_token_counts_dict = dict(sorted_token_counts)
